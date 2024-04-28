@@ -70,43 +70,48 @@ const HomePage = ({ route }) => {
  console.log('Items:', items);
     return (
         <View style={styles.container}>
-            {userRole === 'admin' && (
-                <>
-                    <Text>Add a new item:</Text>
-                    <Picker
-                    selectedValue={category}
-                    onValueChange={(itemValue) => setCategory(itemValue)}
-                    style={{height: 50, width: 150}}
-                    
->                   
-                    {categories.map((category) => (
-                    <Picker.Item key={category} label={category} value={category} />
-                    ))}
-                    </Picker>
-                    <TextInput
-                        value={name}
-                        onChangeText={setName}
-                        placeholder="Item name"
-                    />
-                    <TextInput
-                        value={itemCount}
-                        onChangeText={setItemCount}
-                        placeholder="Item count"
-                    />
-                    <TextInput
-                        value={maxValue}
-                        onChangeText={setMaxValue}
-                        placeholder="Max Count"
-                    />
-                    <TextInput
-                        value={image}
-                        onChangeText={setImage}
-                        placeholder="Image URL"
-                    />
-                    <Button title="Add Item" onPress={handleAddItem} />
-                </>
-            )}
-    
+  {userRole === 'admin' && (
+    <View style={{ flex: 1 }}>
+      <View style={{ alignItems: 'flex-end', justifyContent: 'flex-start', marginTop:50 }}>
+        <Button
+          title="Go to Camera"
+          onPress={() => navigation.navigate('CameraComponent')}
+        />
+      </View>
+      <Text>Add a new item:</Text>
+      <Picker
+        selectedValue={category}
+        onValueChange={(itemValue) => setCategory(itemValue)}
+        style={{height: 50, width: 150}}
+      >
+        {categories.map((category) => (
+          <Picker.Item key={category} label={category} value={category} />
+        ))}
+      </Picker>
+      <TextInput
+        value={name}
+        onChangeText={setName}
+        placeholder="Item name"
+      />
+      <TextInput
+        value={itemCount}
+        onChangeText={setItemCount}
+        placeholder="Item count"
+      />
+      <TextInput
+        value={maxValue}
+        onChangeText={setMaxValue}
+        placeholder="Max Count"
+      />
+      <TextInput
+        value={image}
+        onChangeText={setImage}
+        placeholder="Image URL"
+      />
+      <Button title="Add Item" onPress={handleAddItem} />
+    </View>
+  )}
+
     {categories.map((category, i) => (
     <ListItem.Accordion
         key={i}

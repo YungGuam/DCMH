@@ -11,19 +11,12 @@ import Leaderboard from './app/screens/Leaderboard.jsx';
 import Settings from './app/screens/Settings.jsx';
 import SignUp from './app/screens/SignUp.jsx';
 import Schedule from './app/screens/Schedule.jsx';
-import { useFonts } from "expo-font";
+import CameraComponent from './app/screens/CameraComponent.jsx';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const [fontsLoaded, error] = useFonts({
-  "Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
-  "Inter-Bold": require("./assets/fonts/Inter-Bold.ttf"),
-});
-
-if (!fontsLoaded && !error) {
-  return null;
-}
 
 function BottomTabNavigator() {
   return (
@@ -53,6 +46,7 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
         <Stack.Screen name="App" component={BottomTabNavigator} options={{ headerShown: false }}/>
         <Stack.Screen name="Schedule" component={Schedule} options={{ headerShown: false }}/>
+        <Stack.Screen name="CameraComponent" component={CameraComponent} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
