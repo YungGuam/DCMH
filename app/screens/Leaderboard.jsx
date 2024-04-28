@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 50,
     },
     text: {
         fontSize: 20,
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
+        alignItems: 'center',
     },
 });
 
