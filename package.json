@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-google-signin/google-signin": "^11.0.1",
+    "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native-stack": "^6.9.26",
     "expo": "~50.0.14",
     "expo-status-bar": "~1.11.1",

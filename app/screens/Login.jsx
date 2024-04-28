@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, getDoc } from 'firebase/firestore';
 import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebaseConfig.js';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 
-const Login = () => {
+const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -15,6 +15,16 @@ const Login = () => {
         setLoading(true);
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
+            // After successful login, fetch role from Firestore
+            const docRef = doc(FIREBASE_DB, "users", response.user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                    // Navigate to BottomTabNavigator
+                    navigation.navigate('App', { screen: 'HomePage', params: { userRole: userData.role } });
+            } else {
+                console.log("No such document!");
+            }
             setLoading(false);
         } catch (e) {
             console.log(e);
