@@ -5,47 +5,22 @@ import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebaseConfig.js';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
-
-const Login = () => {
+const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const auth = FIREBASE_AUTH;
-    const navigation = useNavigation();
-
-    const handleSignIn = async () => {
-        setLoading(true);
-        try {
-            const response = await signInWithEmailAndPassword(auth, email, password);
-            // After successful login, fetch role from Firestore
-            const docRef = doc(FIREBASE_DB, "users", response.user.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                const userData = docSnap.data();
-                    // Navigate to BottomTabNavigator
-                    navigation.navigate('App', { screen: 'HomePage', params: { userRole: userData.role } });
-            } else {
-                console.log("No such document!");
-            }
-            setLoading(false);
-        } catch (e) {
-            console.log(e);
-            setLoading(false);
-        }
-    }
+    const [fullName, setFullName] = useState('');
+    const [loading, setLoading] = useState(false); // Declare loading state variable
 
     const handleSignUp = async () => {
-        setLoading(true);
+        setLoading(true); // Set loading to true at the start of sign up
         try {
-            const response = await createUserWithEmailAndPassword(auth, email, password);
-            await setDoc(doc(FIREBASE_DB, 'users', response.user.uid), {fullName, points:0});
-            setLoading(false);
+            const response = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+            await setDoc(doc(FIREBASE_DB, 'users', response.user.uid), { fullName, points: 0 });
         } catch (e) {
             console.log(e);
-            setLoading(false);
         }
-    }
-
+        setLoading(false); // Set loading to false at the end of sign up
+    };
     return (
         <SafeAreaView 
 			style = {{
@@ -66,8 +41,32 @@ const Login = () => {
 						marginBottom: 10,
 						marginHorizontal: 157,
 					}}>
-					{"Sign In"}
+					{"Sign Up"}
 				</Text>
+                <Text 
+					style = {{
+						color: "#FFFFFF",
+						fontSize: 15,
+						marginBottom: 5,
+						marginHorizontal: 79,
+					}}>
+					{"Full Name"}
+				</Text>
+				<TextInput 
+          value={fullName} 
+          style ={{
+            backgroundColor: "#EBEBEB",
+            borderRadius: 15,
+            paddingVertical: 12,
+            paddingHorizontal: 14,
+            marginBottom: 22,
+            marginHorizontal: 77,
+            fontSize: 12,
+            color: "#A6AAAE",
+          }} 
+          placeholder ="Full Name" 
+          onChangeText={(text) => setFullName(text)}
+        />
 				<Text 
 					style = {{
 						color: "#FFFFFF",
@@ -159,28 +158,7 @@ const Login = () => {
       : 
       <>
         <TouchableOpacity 
-          onPress={handleSignIn}
-          style ={{
-            alignItems: "center",
-            backgroundColor: "#4EAAFF",
-            borderRadius: 15,
-            paddingVertical: 12,
-            marginBottom: 21,
-            marginHorizontal: 77,
-            shadowColor: "#4EAAFF",
-            shadowOpacity: 1.0,
-            shadowOffset: {
-                width: 0,
-                height: 0
-            },
-            shadowRadius: 13,
-            elevation: 13,
-          }}
-        >
-              <Text style={{color: "#FFFFFF", fontSize: 12}}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-    onPress={() => navigation.navigate('SignUp')}
+    onPress={handleSignUp}
     style ={{
         alignItems: "center",
         backgroundColor: "#4EAAFF",
@@ -210,22 +188,6 @@ const Login = () => {
 		</SafeAreaView>
 		
     )
-}
+};
 
-
-export default Login;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: 'black',
-        width: 200,
-        padding: 10,
-        margin: 5,
-    },
-});
+export default SignUp;

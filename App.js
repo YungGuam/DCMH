@@ -9,16 +9,28 @@ import UserPage from './app/screens/UserPage.jsx'; // replace with the actual pa
 import HomePage from './app/screens/HomePage.jsx'; // replace with the actual path to your HomePage component
 import Leaderboard from './app/screens/Leaderboard.jsx';
 import Settings from './app/screens/Settings.jsx';
+import SignUp from './app/screens/SignUp.jsx';
+import Schedule from './app/screens/Schedule.jsx';
+import { useFonts } from "expo-font";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const [fontsLoaded, error] = useFonts({
+  "Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
+  "Inter-Bold": require("./assets/fonts/Inter-Bold.ttf"),
+});
+
+if (!fontsLoaded && !error) {
+  return null;
+}
+
 function BottomTabNavigator() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="HomePage" component={HomePage} />
-      <Tab.Screen name="Leaderboard" component={Leaderboard} />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
+      <Tab.Screen name="Leaderboard" component={Leaderboard} options={{headerShown: false}} />
+      <Tab.Screen name="Settings" component={Settings} options={{headerShown: false}} />
 
     </Tab.Navigator>
   );
@@ -38,7 +50,9 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+        <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
         <Stack.Screen name="App" component={BottomTabNavigator} options={{ headerShown: false }}/>
+        <Stack.Screen name="Schedule" component={Schedule} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
