@@ -5,7 +5,7 @@ import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { ListItem, Icon } from 'react-native-elements';
-
+import { KeyboardAvoidingView, Platform } from 'react-native';
 
 const HomePage = ({ route }) => {
     const userRole = route.params.userRole;
@@ -21,12 +21,13 @@ const HomePage = ({ route }) => {
 
     const categories = ['Dairy', 'Proteins', 'Carbs', 'Vegetables', 'Fruits', 'Basic Needs', 'Other'];
 
-    useEffect(() => {
-        const fetchItems = async () => {
-            const fetchedItems = await getItems();
-            setItems(fetchedItems);
-        };
+    const fetchItems = async () => {
+        const fetchedItems = await getItems();
+        setItems(fetchedItems);
+    };
 
+
+    useEffect(() => {
         fetchItems();
     }, []);
 
@@ -38,6 +39,7 @@ const HomePage = ({ route }) => {
         setImage('');
         setName('');
         setMaxValue('');
+        fetchItems();
     };
 
     const handleItemPress = (item) => {
@@ -69,6 +71,7 @@ const HomePage = ({ route }) => {
 
  console.log('Items:', items);
     return (
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
         <View style={styles.container}>
   {userRole === 'admin' && (
     <View style={{ flex: 1 }}>
@@ -113,6 +116,7 @@ const HomePage = ({ route }) => {
   )}
 
     {categories.map((category, i) => (
+        
     <ListItem.Accordion
         key={i}
         content={
@@ -157,6 +161,7 @@ const HomePage = ({ route }) => {
 </ListItem.Accordion>
 ))}
         </View>
+        </KeyboardAvoidingView>
     );
 };
 
